@@ -1,5 +1,6 @@
+using Discount.API.Extensions;
 using Discount.API.Repositories;
-
+ 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IDiscountRepository,DiscountRepository>();
- 
+builder.Services.AddLogging(builder => builder.AddConsole());
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -25,5 +27,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MigrateDatabase<Program>();
 
 app.Run();
